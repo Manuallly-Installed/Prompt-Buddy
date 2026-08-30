@@ -209,6 +209,19 @@ Procedure Event_Menu_Window_main()
   Select EventMenu()
     Case #Menu_Quit
       Quit = #True
+    Case #Menu_New
+    Case #Menu_Open
+    Case #Menu_Save
+    Case #Menu_Quit
+    Case #Menu_About
+    Case #Menu_AddPrompt
+    Case #Menu_AddEnvironment
+    Case #Menu_EditPrompt
+    Case #Menu_EditScratchPad
+    Case #Menu_SearchPrompt
+    Case #Menu_SearchScratchPad
+    Case #Menu_SearchEnvironment
+      
     Default
       MessageRequester("Information", "ToolBar or Menu ID : " + Str(EventMenu()) +#CRLF$+#CRLF$+ "Text : " + GetMenuItemText(#MainMenu, EventMenu()), 0)
   EndSelect
@@ -363,8 +376,8 @@ DataSection
 EndDataSection
 
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 122
-; FirstLine = 117
+; CursorPosition = 85
+; FirstLine = 85
 ; Folding = ----
 ; EnableXP
 ; DPIAware
