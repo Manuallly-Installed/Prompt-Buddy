@@ -3,7 +3,7 @@
 ;           Name:
 ;    Description:
 ;         Author:
-;           Date: 2026-08-26
+;           Date: 2026-08-30
 ;        Version:
 ;     PB-Version:
 ;             OS:
@@ -30,31 +30,52 @@ Enumeration MenuItems
   #Menu_Open
   #Menu_Save
   #Menu_Quit
-  #Menu_EditPrompt
-  #Menu_EditScratchPad
+  #Menu_About
   #Menu_AddPrompt
   #Menu_AddEnvironment
+  #Menu_EditPrompt
+  #Menu_EditScratchPad
   #Menu_SearchPrompt
   #Menu_SearchScratchPad
   #Menu_SearchEnvironment
-  #Menu_About
 EndEnumeration
 
 Enumeration Gadgets
+  #BackButton
+  #BackButton_1
+  #BtnImg_1
+  #BtnImg_2
   #Check_Stay_on_top
   #Edit_Prompt
   #Edit_ScratchPad
   #Fleet
+  #Forward
+  #Forward_1
   #Panel_PromptScratch
   #Slack
+  #String_Fleet
+  #String_Slack
   #Txt_Prompt
   #Txt_ScratchPad
+EndEnumeration
+
+Enumeration Images
+  #Imag_Home
+  #Imag_rightarrow_24
+  #Imag_leftarrow_24
 EndEnumeration
 
 Enumeration Fonts
   #Font_Default_10_B
   #Font_Default_10
 EndEnumeration
+
+;- Load Images
+UsePNGImageDecoder()
+
+CatchImage(#Imag_Home, ?Imag_Home)
+CatchImage(#Imag_rightarrow_24, ?Imag_rightarrow_24)
+CatchImage(#Imag_leftarrow_24, ?Imag_leftarrow_24)
 
 ;- Load Fonts
 LoadFont(#Font_Default_10_B, "", 10, #PB_Font_Bold)
@@ -67,7 +88,15 @@ Declare Event_Panel_PromptScratch()
 Declare Event_Check_Stay_on_top()
 Declare Event_Edit_Prompt()
 Declare Event_Edit_ScratchPad()
+Declare Event_BackButton()
+Declare Event_Forward()
+Declare Event_BtnImg_1()
+Declare Event_String_Fleet()
 Declare Event_Fleet()
+Declare Event_BackButton_1()
+Declare Event_Forward_1()
+Declare Event_BtnImg_2()
+Declare Event_String_Slack()
 Declare Event_Slack()
 Declare Event_Menu_Window_main()
 Declare Resize_Window_main()
@@ -77,6 +106,7 @@ Declare Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
 
 XIncludeFile "ObjectTheme.pbi"
 UseModule ObjectTheme
+XIncludeFile "ResizeHelper.pbi"
 
 Procedure Event_Panel_PromptScratch()
   Select EventType()
@@ -92,7 +122,7 @@ Procedure Event_Check_Stay_on_top()
     StickyWindow(#Window_main, #False)
   EndIf
   
-  ;MessageRequester("Information", "CheckBox Name : #Check_Stay_on_top" +#CRLF$+#CRLF$+ "State : " + GetGadgetState(EventGadget()))
+  MessageRequester("Information", "CheckBox Name : #Check_Stay_on_top" +#CRLF$+#CRLF$+ "State : " + GetGadgetState(EventGadget()))
 EndProcedure
 
 Procedure Event_Edit_Prompt()
@@ -104,6 +134,26 @@ Procedure Event_Edit_Prompt()
 EndProcedure
 
 Procedure Event_Edit_ScratchPad()
+  Select EventType()
+    Case #PB_EventType_Focus
+    Case #PB_EventType_Change
+    Case #PB_EventType_LostFocus
+  EndSelect
+EndProcedure
+
+Procedure Event_BackButton()
+  MessageRequester("Information", "Button Image Name : #BackButton")
+EndProcedure
+
+Procedure Event_Forward()
+  MessageRequester("Information", "Button Image Name : #Forward")
+EndProcedure
+
+Procedure Event_BtnImg_1()
+  MessageRequester("Information", "Button Image Name : #BtnImg_1")
+EndProcedure
+
+Procedure Event_String_Fleet()
   Select EventType()
     Case #PB_EventType_Focus
     Case #PB_EventType_Change
@@ -123,6 +173,26 @@ Procedure Event_Fleet()
   EndSelect
 EndProcedure
 
+Procedure Event_BackButton_1()
+  MessageRequester("Information", "Button Image Name : #BackButton_1")
+EndProcedure
+
+Procedure Event_Forward_1()
+  MessageRequester("Information", "Button Image Name : #Forward_1")
+EndProcedure
+
+Procedure Event_BtnImg_2()
+  MessageRequester("Information", "Button Image Name : #BtnImg_2")
+EndProcedure
+
+Procedure Event_String_Slack()
+  Select EventType()
+    Case #PB_EventType_Focus
+    Case #PB_EventType_Change
+    Case #PB_EventType_LostFocus
+  EndSelect
+EndProcedure
+
 Procedure Event_Slack()
   Select EventType()
     Case #PB_EventType_TitleChange
@@ -139,16 +209,6 @@ Procedure Event_Menu_Window_main()
   Select EventMenu()
     Case #Menu_Quit
       Quit = #True
-    Case #Menu_Open
-    Case #Menu_Save
-    Case #Menu_EditPrompt
-    Case #Menu_EditScratchPad
-    Case #Menu_AddPrompt
-    Case #Menu_AddEnvironment
-    Case #Menu_SearchPrompt
-    Case #Menu_SearchScratchPad
-    Case #Menu_SearchEnvironment
-    Case #Menu_About
     Default
       MessageRequester("Information", "ToolBar or Menu ID : " + Str(EventMenu()) +#CRLF$+#CRLF$+ "Text : " + GetMenuItemText(#MainMenu, EventMenu()), 0)
   EndSelect
@@ -172,7 +232,21 @@ Procedure Resize_Window_main()
   ResizeGadget(#Edit_Prompt, ScaleX * 0, ScaleY * 34, ScaleX * 992, ScaleY * 303)
   ResizeGadget(#Txt_ScratchPad, ScaleX * 0, ScaleY * 351, ScaleX * 355, ScaleY * 20)
   ResizeGadget(#Edit_ScratchPad, ScaleX * 0, ScaleY * 375, ScaleX * 992, ScaleY * 260)
+  ResizeGadget(#BackButton, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BackButton)
+  ResizeGadget(#Forward, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#Forward)
+  ResizeGadget(#BtnImg_1, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BtnImg_1)
+  ResizeGadget(#String_Fleet, ScaleX * 184, ScaleY * 2, ScaleX * 545, ScaleY * 25)
   ResizeGadget(#Fleet, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
+  ResizeGadget(#BackButton_1, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BackButton_1)
+  ResizeGadget(#Forward_1, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#Forward_1)
+  ResizeGadget(#BtnImg_2, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BtnImg_2)
+  ResizeGadget(#String_Slack, ScaleX * 185, ScaleY * 2, ScaleX * 545, ScaleY * 25)
   ResizeGadget(#Slack, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows : RedrawWindow_(WindowID(#Window_main), #Null, #Null, #RDW_INVALIDATE | #RDW_ERASE | #RDW_ALLCHILDREN | #RDW_UPDATENOW) : CompilerEndIf
 EndProcedure
@@ -215,21 +289,30 @@ Procedure Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
       TextGadget(#Txt_Prompt, 0, 10, 173, 20, "Prompt:")
         SetGadgetFont(#Txt_Prompt, FontID(#Font_Default_10_B))
       CheckBoxGadget(#Check_Stay_on_top, 700, 10, 271, 20, "Stay on top")
-      EditorGadget(#Edit_Prompt, 0, 34, 992, 303, #PB_Editor_WordWrap | #PB_Editor_TabNavigation)
-        ;AddGadgetItem(#Edit_Prompt, -1, "Editor Line 1")
-        ;AddGadgetItem(#Edit_Prompt, -1, "Editor Line 2")
-        ;AddGadgetItem(#Edit_Prompt, -1, "Editor Line 3")
+      EditorGadget(#Edit_Prompt, 0, 34, 992, 303, #PB_Editor_WordWrap)
+        AddGadgetItem(#Edit_Prompt, -1, "Editor Line 1")
+        AddGadgetItem(#Edit_Prompt, -1, "Editor Line 2")
+        AddGadgetItem(#Edit_Prompt, -1, "Editor Line 3")
         SetGadgetFont(#Edit_Prompt, FontID(#Font_Default_10))
       TextGadget(#Txt_ScratchPad, 0, 351, 355, 20, "Scratch Pad:")
         SetGadgetFont(#Txt_ScratchPad, FontID(#Font_Default_10_B))
-      EditorGadget(#Edit_ScratchPad, 0, 375, 992, 260, #PB_Editor_WordWrap | #PB_Editor_TabNavigation)
-        ;AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 1")
-        ;AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 2")
-        ;AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 3")
+      EditorGadget(#Edit_ScratchPad, 0, 375, 992, 260, #PB_Editor_WordWrap)
+        AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 1")
+        AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 2")
+        AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 3")
         SetGadgetFont(#Edit_ScratchPad, FontID(#Font_Default_10))
       AddGadgetItem(#Panel_PromptScratch, -1, "Fleetai")
+      ButtonImageGadget(#BackButton, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
+      ButtonImageGadget(#Forward, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
+      ButtonImageGadget(#BtnImg_1, 124, 0, 50, 28, ImageID(#Imag_Home))
+      StringGadget(#String_Fleet, 184, 2, 545, 25, "http://fleetai.com")
+        SetGadgetFont(#String_Fleet, FontID(#Font_Default_10))
       WebGadget(#Fleet, 0, 30, 992, 615, "https://fleetai.com/", #PB_Web_Edge)
       AddGadgetItem(#Panel_PromptScratch, -1, "Slack")
+      ButtonImageGadget(#BackButton_1, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
+      ButtonImageGadget(#Forward_1, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
+      ButtonImageGadget(#BtnImg_2, 124, 0, 50, 28, ImageID(#Imag_Home))
+      StringGadget(#String_Slack, 185, 2, 545, 25, "https://app.slack.com/client/")
       WebGadget(#Slack, 0, 30, 992, 615, "https://app.slack.com/client/", #PB_Web_Edge)
     CloseGadgetList()   ; #Panel_PromptScratch
 
@@ -237,7 +320,15 @@ Procedure Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
     BindGadgetEvent(#Check_Stay_on_top, @Event_Check_Stay_on_top())
     BindGadgetEvent(#Edit_Prompt, @Event_Edit_Prompt())
     BindGadgetEvent(#Edit_ScratchPad, @Event_Edit_ScratchPad())
+    BindGadgetEvent(#BackButton, @Event_BackButton())
+    BindGadgetEvent(#Forward, @Event_Forward())
+    BindGadgetEvent(#BtnImg_1, @Event_BtnImg_1())
+    BindGadgetEvent(#String_Fleet, @Event_String_Fleet())
     BindGadgetEvent(#Fleet, @Event_Fleet())
+    BindGadgetEvent(#BackButton_1, @Event_BackButton_1())
+    BindGadgetEvent(#Forward_1, @Event_Forward_1())
+    BindGadgetEvent(#BtnImg_2, @Event_BtnImg_2())
+    BindGadgetEvent(#String_Slack, @Event_String_Slack())
     BindGadgetEvent(#Slack, @Event_Slack())
     BindEvent(#PB_Event_Menu, @Event_Menu_Window_main(), #Window_main)
     BindEvent(#PB_Event_SizeWindow, @Resize_Window_main(), #Window_main)
@@ -257,16 +348,23 @@ If Open_Window_main()
 
   ;IceKeepEventLoop
   Repeat
-    Select WaitWindowEvent()        
+    Select WaitWindowEvent()
     EndSelect
   Until Quit
   ;EndIceKeepEventLoop
 EndIf
 CompilerEndIf
 
+;- DataSection
+DataSection
+  Imag_Home: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\Home.png"
+  Imag_rightarrow_24: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\rightarrow_24.png"
+  Imag_leftarrow_24: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\leftarrow_24.png"
+EndDataSection
+
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 96
-; FirstLine = 81
-; Folding = ---
+; CursorPosition = 122
+; FirstLine = 117
+; Folding = ----
 ; EnableXP
 ; DPIAware

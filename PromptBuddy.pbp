@@ -7,12 +7,12 @@
   <section name="data">
     <explorer view="..\" pattern="0"/>
     <log show="1"/>
-    <lastopen date="2026-08-29 03:32" user="Brian" host="DESKTOP-08043AM"/>
+    <lastopen date="2026-08-30 10:43" user="Brian" host="DESKTOP-08043AM"/>
   </section>
   <section name="files">
     <file name="PromptBuddy_Main.pb">
       <config load="0" scan="1" panel="1" warn="1" lastopen="1" sortindex="1" panelstate="+"/>
-      <fingerprint md5="80afb9ab359bac9feb6d7b948ba33ab7"/>
+      <fingerprint md5="14a2c57c18e8c308fb8685fcf95030f6"/>
     </file>
   </section>
   <section name="targets">
