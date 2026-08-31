@@ -7,7 +7,7 @@
   <section name="data">
     <explorer view="..\" pattern="0"/>
     <log show="1"/>
-    <lastopen date="2026-08-30 16:19" user="Brian" host="DESKTOP-08043AM"/>
+    <lastopen date="2026-08-30 16:55" user="Brian" host="DESKTOP-08043AM"/>
   </section>
   <section name="files">
     <file name="PromptBuddy_Main.pb">
