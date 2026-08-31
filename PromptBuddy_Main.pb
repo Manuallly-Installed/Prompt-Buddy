@@ -1,12 +1,12 @@
 ﻿;- Top
 ; -----------------------------------------------------------------------------
-;           Name:
-;    Description:
-;         Author:
+;           Name: Prompt Buddy
+;    Description: An easy to use program to write prompts. You can save and search them in an organized manner.
+;         Author: Brian JaQuay
 ;           Date: 2026-08-30
-;        Version:
-;     PB-Version:
-;             OS:
+;        Version: 1.0
+;     PB-Version: 6.41 LTS
+;             OS: Windows 10 64 bit
 ;         Credit:
 ;          Forum:
 ;     Created by: IceDesign
@@ -376,8 +376,7 @@ DataSection
 EndDataSection
 
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 85
-; FirstLine = 85
+; CursorPosition = 3
 ; Folding = ----
 ; EnableXP
 ; DPIAware
