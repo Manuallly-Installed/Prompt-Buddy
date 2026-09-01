@@ -1,12 +1,12 @@
 ﻿;- Top
 ; -----------------------------------------------------------------------------
-;           Name: Prompt Buddy
-;    Description: An easy to use program to write prompts. You can save and search them in an organized manner.
-;         Author: Brian JaQuay
-;           Date: 2026-08-30
-;        Version: 1.0
-;     PB-Version: 6.41 LTS
-;             OS: Windows 10 64 bit
+;           Name:
+;    Description:
+;         Author:
+;           Date: 2026-08-31
+;        Version:
+;     PB-Version:
+;             OS:
 ;         Credit:
 ;          Forum:
 ;     Created by: IceDesign
@@ -38,21 +38,23 @@ Enumeration MenuItems
   #Menu_SearchPrompt
   #Menu_SearchScratchPad
   #Menu_SearchEnvironment
+  #Menu_GoFleet
+  #Menu_GoSlack
 EndEnumeration
 
 Enumeration Gadgets
-  #BackButton
-  #BackButton_1
-  #BtnImg_1
-  #BtnImg_2
+  #BackButton_Fleet
+  #ForwardButton_Fleet
+  #BackButton_Slack
+  #ForwardButton_Slack
+  #HomeButton_Fleet
+  #HomeButton_Slack
   #Check_Stay_on_top
   #Edit_Prompt
   #Edit_ScratchPad
-  #Fleet
-  #Forward
-  #Forward_1
   #Panel_PromptScratch
-  #Slack
+  #WebGadget_Fleet                   ; webgadget Fleet tab
+  #WebGadget_Slack                   ; webgadget Slack tab
   #String_Fleet
   #String_Slack
   #Txt_Prompt
@@ -69,6 +71,10 @@ Enumeration Fonts
   #Font_Default_10_B
   #Font_Default_10
 EndEnumeration
+
+;- Browser home pages
+#HomeURL_Fleet = "https://fleetai.com/"
+#HomeURL_Slack = "https://app.slack.com/client/"
 
 ;- Load Images
 UsePNGImageDecoder()
@@ -88,21 +94,23 @@ Declare Event_Panel_PromptScratch()
 Declare Event_Check_Stay_on_top()
 Declare Event_Edit_Prompt()
 Declare Event_Edit_ScratchPad()
-Declare Event_BackButton()
-Declare Event_Forward()
-Declare Event_BtnImg_1()
+Declare Event_BackButton_Fleet()
+Declare Event_ForwardButton_Fleet()
+Declare Event_HomeButton_Fleet()
 Declare Event_String_Fleet()
-Declare Event_Fleet()
-Declare Event_BackButton_1()
-Declare Event_Forward_1()
-Declare Event_BtnImg_2()
+Declare Event_WebGadget_Fleet()
+Declare Event_BackButton_Slack()
+Declare Event_ForwardButton_Slack()
+Declare Event_HomeButton_Slack()
 Declare Event_String_Slack()
-Declare Event_Slack()
+Declare Event_WebGadget_Slack()
 Declare Event_Menu_Window_main()
 Declare Resize_Window_main()
 Declare Event_Close_Window_main()
 Declare Menu_Window_main()
 Declare Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
+Declare Navigator_Go(WebGadget, AddressGadget)
+Declare SyncWebAddress(WebGadget, AddressGadget)
 
 XIncludeFile "ObjectTheme.pbi"
 UseModule ObjectTheme
@@ -121,8 +129,6 @@ Procedure Event_Check_Stay_on_top()
   Else
     StickyWindow(#Window_main, #False)
   EndIf
-  
-  MessageRequester("Information", "CheckBox Name : #Check_Stay_on_top" +#CRLF$+#CRLF$+ "State : " + GetGadgetState(EventGadget()))
 EndProcedure
 
 Procedure Event_Edit_Prompt()
@@ -141,29 +147,33 @@ Procedure Event_Edit_ScratchPad()
   EndSelect
 EndProcedure
 
-Procedure Event_BackButton()
-  MessageRequester("Information", "Button Image Name : #BackButton")
+Procedure Event_BackButton_Fleet()
+  SetGadgetState(#WebGadget_Fleet, #PB_Web_Back)
 EndProcedure
 
-Procedure Event_Forward()
-  MessageRequester("Information", "Button Image Name : #Forward")
+Procedure Event_ForwardButton_Fleet()
+  SetGadgetState(#WebGadget_Fleet, #PB_Web_Forward)
 EndProcedure
 
-Procedure Event_BtnImg_1()
-  MessageRequester("Information", "Button Image Name : #BtnImg_1")
+Procedure Event_HomeButton_Fleet()
+  SetGadgetText(#WebGadget_Fleet, #HomeURL_Fleet)
+  SetGadgetText(#String_Fleet, #HomeURL_Fleet)
 EndProcedure
 
 Procedure Event_String_Fleet()
   Select EventType()
     Case #PB_EventType_Focus
+      AddKeyboardShortcut(#Window_main, #PB_Shortcut_Return, #Menu_GoFleet)
     Case #PB_EventType_Change
     Case #PB_EventType_LostFocus
+      RemoveKeyboardShortcut(#Window_main, #PB_Shortcut_Return)
   EndSelect
 EndProcedure
 
-Procedure Event_Fleet()
+Procedure Event_WebGadget_Fleet()
   Select EventType()
     Case #PB_EventType_TitleChange
+      SyncWebAddress(#WebGadget_Fleet, #String_Fleet)
     Case #PB_EventType_StatusChange
     Case #PB_EventType_DownloadStart
     Case #PB_EventType_DownloadProgress
@@ -173,29 +183,33 @@ Procedure Event_Fleet()
   EndSelect
 EndProcedure
 
-Procedure Event_BackButton_1()
-  MessageRequester("Information", "Button Image Name : #BackButton_1")
+Procedure Event_BackButton_Slack()
+  SetGadgetState(#WebGadget_Slack, #PB_Web_Back)
 EndProcedure
 
-Procedure Event_Forward_1()
-  MessageRequester("Information", "Button Image Name : #Forward_1")
+Procedure Event_ForwardButton_Slack()
+  SetGadgetState(#WebGadget_Slack, #PB_Web_Forward)
 EndProcedure
 
-Procedure Event_BtnImg_2()
-  MessageRequester("Information", "Button Image Name : #BtnImg_2")
+Procedure Event_HomeButton_Slack()
+  SetGadgetText(#WebGadget_Slack, #HomeURL_Slack)
+  SetGadgetText(#String_Slack, #HomeURL_Slack)
 EndProcedure
 
 Procedure Event_String_Slack()
   Select EventType()
     Case #PB_EventType_Focus
+      AddKeyboardShortcut(#Window_main, #PB_Shortcut_Return, #Menu_GoSlack)
     Case #PB_EventType_Change
     Case #PB_EventType_LostFocus
+      RemoveKeyboardShortcut(#Window_main, #PB_Shortcut_Return)
   EndSelect
 EndProcedure
 
-Procedure Event_Slack()
+Procedure Event_WebGadget_Slack()
   Select EventType()
     Case #PB_EventType_TitleChange
+      SyncWebAddress(#WebGadget_Slack, #String_Slack)
     Case #PB_EventType_StatusChange
     Case #PB_EventType_DownloadStart
     Case #PB_EventType_DownloadProgress
@@ -203,6 +217,29 @@ Procedure Event_Slack()
     Case #PB_EventType_PopupWindow
     Case #PB_EventType_PopupMenu
   EndSelect
+EndProcedure
+
+Procedure Navigator_Go(WebGadget, AddressGadget)
+  Protected Address$
+  Address$ = Trim(GetGadgetText(AddressGadget))
+  If Address$ = ""
+    ProcedureReturn
+  EndIf
+  If FindString(Address$, "://", 1) = 0
+    If FindString(Address$, " ", 1) Or FindString(Address$, ".", 1) = 0
+      Address$ = "https://www.google.com/search?q=" + URLEncoder(Address$)
+    Else
+      Address$ = "https://" + Address$
+    EndIf
+  EndIf
+  SetGadgetText(WebGadget, Address$)
+  SetGadgetText(AddressGadget, Address$)
+EndProcedure
+
+Procedure SyncWebAddress(WebGadget, AddressGadget)
+  If GetActiveGadget() <> AddressGadget
+    SetGadgetText(AddressGadget, GetGadgetText(WebGadget))
+  EndIf
 EndProcedure
 
 Procedure Event_Menu_Window_main()
@@ -212,7 +249,6 @@ Procedure Event_Menu_Window_main()
     Case #Menu_New
     Case #Menu_Open
     Case #Menu_Save
-    Case #Menu_Quit
     Case #Menu_About
     Case #Menu_AddPrompt
     Case #Menu_AddEnvironment
@@ -221,7 +257,10 @@ Procedure Event_Menu_Window_main()
     Case #Menu_SearchPrompt
     Case #Menu_SearchScratchPad
     Case #Menu_SearchEnvironment
-      
+    Case #Menu_GoFleet
+      Navigator_Go(#WebGadget_Fleet, #String_Fleet)
+    Case #Menu_GoSlack
+      Navigator_Go(#WebGadget_Slack, #String_Slack)
     Default
       MessageRequester("Information", "ToolBar or Menu ID : " + Str(EventMenu()) +#CRLF$+#CRLF$+ "Text : " + GetMenuItemText(#MainMenu, EventMenu()), 0)
   EndSelect
@@ -245,22 +284,22 @@ Procedure Resize_Window_main()
   ResizeGadget(#Edit_Prompt, ScaleX * 0, ScaleY * 34, ScaleX * 992, ScaleY * 303)
   ResizeGadget(#Txt_ScratchPad, ScaleX * 0, ScaleY * 351, ScaleX * 355, ScaleY * 20)
   ResizeGadget(#Edit_ScratchPad, ScaleX * 0, ScaleY * 375, ScaleX * 992, ScaleY * 260)
-  ResizeGadget(#BackButton, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BackButton)
-  ResizeGadget(#Forward, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#Forward)
-  ResizeGadget(#BtnImg_1, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BtnImg_1)
+  ResizeGadget(#BackButton_Fleet, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BackButton_Fleet)
+  ResizeGadget(#ForwardButton_Fleet, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#ForwardButton_Fleet)
+  ResizeGadget(#HomeButton_Fleet, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#HomeButton_Fleet)
   ResizeGadget(#String_Fleet, ScaleX * 184, ScaleY * 2, ScaleX * 545, ScaleY * 25)
-  ResizeGadget(#Fleet, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
-  ResizeGadget(#BackButton_1, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BackButton_1)
-  ResizeGadget(#Forward_1, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#Forward_1)
-  ResizeGadget(#BtnImg_2, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BtnImg_2)
+  ResizeGadget(#WebGadget_Fleet, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
+  ResizeGadget(#BackButton_Slack, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#BackButton_Slack)
+  ResizeGadget(#ForwardButton_Slack, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#ForwardButton_Slack)
+  ResizeGadget(#HomeButton_Slack, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadgetImage(#HomeButton_Slack)
   ResizeGadget(#String_Slack, ScaleX * 185, ScaleY * 2, ScaleX * 545, ScaleY * 25)
-  ResizeGadget(#Slack, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
+  ResizeGadget(#WebGadget_Slack, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows : RedrawWindow_(WindowID(#Window_main), #Null, #Null, #RDW_INVALIDATE | #RDW_ERASE | #RDW_ALLCHILDREN | #RDW_UPDATENOW) : CompilerEndIf
 EndProcedure
 
@@ -315,34 +354,34 @@ Procedure Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
         AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 3")
         SetGadgetFont(#Edit_ScratchPad, FontID(#Font_Default_10))
       AddGadgetItem(#Panel_PromptScratch, -1, "Fleetai")
-      ButtonImageGadget(#BackButton, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
-      ButtonImageGadget(#Forward, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
-      ButtonImageGadget(#BtnImg_1, 124, 0, 50, 28, ImageID(#Imag_Home))
-      StringGadget(#String_Fleet, 184, 2, 545, 25, "http://fleetai.com")
+      ButtonImageGadget(#BackButton_Fleet, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
+      ButtonImageGadget(#ForwardButton_Fleet, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
+      ButtonImageGadget(#HomeButton_Fleet, 124, 0, 50, 28, ImageID(#Imag_Home))
+      StringGadget(#String_Fleet, 184, 2, 545, 25, #HomeURL_Fleet)
         SetGadgetFont(#String_Fleet, FontID(#Font_Default_10))
-      WebGadget(#Fleet, 0, 30, 992, 615, "https://fleetai.com/", #PB_Web_Edge)
+      WebGadget(#WebGadget_Fleet, 0, 30, 992, 615, #HomeURL_Fleet, #PB_Web_Edge)
       AddGadgetItem(#Panel_PromptScratch, -1, "Slack")
-      ButtonImageGadget(#BackButton_1, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
-      ButtonImageGadget(#Forward_1, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
-      ButtonImageGadget(#BtnImg_2, 124, 0, 50, 28, ImageID(#Imag_Home))
-      StringGadget(#String_Slack, 185, 2, 545, 25, "https://app.slack.com/client/")
-      WebGadget(#Slack, 0, 30, 992, 615, "https://app.slack.com/client/", #PB_Web_Edge)
+      ButtonImageGadget(#BackButton_Slack, 3, 0, 50, 28, ImageID(#Imag_leftarrow_24))
+      ButtonImageGadget(#ForwardButton_Slack, 63, 0, 50, 28, ImageID(#Imag_rightarrow_24))
+      ButtonImageGadget(#HomeButton_Slack, 124, 0, 50, 28, ImageID(#Imag_Home))
+      StringGadget(#String_Slack, 185, 2, 545, 25, #HomeURL_Slack)
+      WebGadget(#WebGadget_Slack, 0, 30, 992, 615, #HomeURL_Slack, #PB_Web_Edge)
     CloseGadgetList()   ; #Panel_PromptScratch
 
     BindGadgetEvent(#Panel_PromptScratch, @Event_Panel_PromptScratch())
     BindGadgetEvent(#Check_Stay_on_top, @Event_Check_Stay_on_top())
     BindGadgetEvent(#Edit_Prompt, @Event_Edit_Prompt())
     BindGadgetEvent(#Edit_ScratchPad, @Event_Edit_ScratchPad())
-    BindGadgetEvent(#BackButton, @Event_BackButton())
-    BindGadgetEvent(#Forward, @Event_Forward())
-    BindGadgetEvent(#BtnImg_1, @Event_BtnImg_1())
+    BindGadgetEvent(#BackButton_Fleet, @Event_BackButton_Fleet())
+    BindGadgetEvent(#ForwardButton_Fleet, @Event_ForwardButton_Fleet())
+    BindGadgetEvent(#HomeButton_Fleet, @Event_HomeButton_Fleet())
     BindGadgetEvent(#String_Fleet, @Event_String_Fleet())
-    BindGadgetEvent(#Fleet, @Event_Fleet())
-    BindGadgetEvent(#BackButton_1, @Event_BackButton_1())
-    BindGadgetEvent(#Forward_1, @Event_Forward_1())
-    BindGadgetEvent(#BtnImg_2, @Event_BtnImg_2())
+    BindGadgetEvent(#WebGadget_Fleet, @Event_WebGadget_Fleet())
+    BindGadgetEvent(#BackButton_Slack, @Event_BackButton_Slack())
+    BindGadgetEvent(#ForwardButton_Slack, @Event_ForwardButton_Slack())
+    BindGadgetEvent(#HomeButton_Slack, @Event_HomeButton_Slack())
     BindGadgetEvent(#String_Slack, @Event_String_Slack())
-    BindGadgetEvent(#Slack, @Event_Slack())
+    BindGadgetEvent(#WebGadget_Slack, @Event_WebGadget_Slack())
     BindEvent(#PB_Event_Menu, @Event_Menu_Window_main(), #Window_main)
     BindEvent(#PB_Event_SizeWindow, @Resize_Window_main(), #Window_main)
     PostEvent(#PB_Event_SizeWindow, #Window_main, 0)
@@ -374,9 +413,9 @@ DataSection
   Imag_rightarrow_24: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\rightarrow_24.png"
   Imag_leftarrow_24: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\leftarrow_24.png"
 EndDataSection
-
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 3
-; Folding = ----
+; CursorPosition = 414
+; FirstLine = 377
+; Folding = -----
 ; EnableXP
 ; DPIAware
