@@ -279,27 +279,27 @@ Procedure Resize_Window_main()
   ScaleX = WindowWidth(#Window_main) / Window_main_WidthIni : ScaleY = (WindowHeight(#Window_main) - MenuHeight) / Window_main_HeightIni
   ResizeGadget(#Panel_PromptScratch, ScaleX * 0, ScaleY * 0, ScaleX * 1000, ScaleY * 700)
   ScaleX = GetGadgetAttribute(#Panel_PromptScratch, #PB_Panel_ItemWidth) / Panel_PromptScratch_WidthIni : ScaleY = GetGadgetAttribute(#Panel_PromptScratch, #PB_Panel_ItemHeight) / Panel_PromptScratch_HeightIni
-  ResizeGadget(#Txt_Prompt, ScaleX * 0, ScaleY * 10, ScaleX * 173, ScaleY * 20)
+  ;ResizeGadget(#Txt_Prompt, ScaleX * 0, ScaleY * 10, ScaleX * 173, ScaleY * 20)
   ResizeGadget(#Check_Stay_on_top, ScaleX * 700, ScaleY * 10, ScaleX * 271, ScaleY * 20)
   ResizeGadget(#Edit_Prompt, ScaleX * 0, ScaleY * 34, ScaleX * 992, ScaleY * 303)
   ResizeGadget(#Txt_ScratchPad, ScaleX * 0, ScaleY * 351, ScaleX * 355, ScaleY * 20)
   ResizeGadget(#Edit_ScratchPad, ScaleX * 0, ScaleY * 375, ScaleX * 992, ScaleY * 260)
-  ResizeGadget(#BackButton_Fleet, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BackButton_Fleet)
-  ResizeGadget(#ForwardButton_Fleet, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#ForwardButton_Fleet)
-  ResizeGadget(#HomeButton_Fleet, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#HomeButton_Fleet)
-  ResizeGadget(#String_Fleet, ScaleX * 184, ScaleY * 2, ScaleX * 545, ScaleY * 25)
-  ResizeGadget(#WebGadget_Fleet, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
-  ResizeGadget(#BackButton_Slack, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#BackButton_Slack)
-  ResizeGadget(#ForwardButton_Slack, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#ForwardButton_Slack)
-  ResizeGadget(#HomeButton_Slack, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
-  ResizeGadgetImage(#HomeButton_Slack)
-  ResizeGadget(#String_Slack, ScaleX * 185, ScaleY * 2, ScaleX * 545, ScaleY * 25)
-  ResizeGadget(#WebGadget_Slack, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
+  ;ResizeGadget(#BackButton_Fleet, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#BackButton_Fleet)
+  ;ResizeGadget(#ForwardButton_Fleet, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#ForwardButton_Fleet)
+  ;ResizeGadget(#HomeButton_Fleet, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#HomeButton_Fleet)
+  ResizeGadget(#String_Fleet, #PB_Ignore, #PB_Ignore, ScaleX * 545, #PB_Ignore);(#String_Fleet, ScaleX * 184, ScaleY * 2, ScaleX * 545, ScaleY * 25)
+  ResizeGadget(#WebGadget_Fleet, ScaleX * 0, #PB_Ignore, ScaleX * 992, ScaleY * 615)
+  ;ResizeGadget(#BackButton_Slack, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#BackButton_Slack)
+  ;ResizeGadget(#ForwardButton_Slack, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#ForwardButton_Slack)
+  ;ResizeGadget(#HomeButton_Slack, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ;ResizeGadgetImage(#HomeButton_Slack)
+  ResizeGadget(#String_Slack, #PB_Ignore, #PB_Ignore, ScaleX * 545, #PB_Ignore)
+  ResizeGadget(#WebGadget_Slack, ScaleX * 0, #PB_Ignore, ScaleX * 992, ScaleY * 615)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows : RedrawWindow_(WindowID(#Window_main), #Null, #Null, #RDW_INVALIDATE | #RDW_ERASE | #RDW_ALLCHILDREN | #RDW_UPDATENOW) : CompilerEndIf
 EndProcedure
 
@@ -414,8 +414,8 @@ DataSection
   Imag_leftarrow_24: : IncludeBinary "C:\Users\Brian\Documents\PureBasic Projects\Prompt Buddy\leftarrow_24.png"
 EndDataSection
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 414
-; FirstLine = 377
+; CursorPosition = 300
+; FirstLine = 279
 ; Folding = -----
 ; EnableXP
 ; DPIAware
