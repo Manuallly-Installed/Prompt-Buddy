@@ -72,8 +72,8 @@ Enumeration Images
 EndEnumeration
 
 Enumeration Fonts
-  #Font_Default_12_B
   #Font_Default_12
+  #Font_Default_12_B  
 EndEnumeration
 
 ;- Load Images
@@ -451,16 +451,16 @@ Procedure Resize_Window_main()
   ResizeGadget(#Edit_Prompt, ScaleX * 0, ScaleY * 34, ScaleX * 992, ScaleY * 303)
   ResizeGadget(#Txt_ScratchPad, ScaleX * 0, ScaleY * 351, ScaleX * 355, ScaleY * 20)
   ResizeGadget(#Edit_ScratchPad, ScaleX * 0, ScaleY * 375, ScaleX * 992, ScaleY * 260)
-  ResizeGadget(#BackButton_Fleet, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadget(#BackButton_Fleet, ScaleX * 0, ScaleY * 0, #PB_Ignore, #PB_Ignore);ScaleX * 50, ScaleY * 28)
   ResizeGadgetImage(#BackButton_Fleet)
-  ResizeGadget(#ForwardButton_Fleet, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadget(#ForwardButton_Fleet, #PB_Ignore, ScaleY * 0,#PB_Ignore, #PB_Ignore); ScaleX * 50, ScaleY * 28)
   ResizeGadgetImage(#ForwardButton_Fleet)
-  ResizeGadget(#HomeButton_Fleet, ScaleX * 124, ScaleY * 0, ScaleX * 50, ScaleY * 28)
+  ResizeGadget(#HomeButton_Fleet, #PB_Ignore, ScaleY * 0, #PB_Ignore, #PB_Ignore) ;ScaleY * 28)
   ResizeGadgetImage(#HomeButton_Fleet)
-  ResizeGadget(#Settings_Fleet, ScaleX * 825, ScaleY * 0, ScaleX * 25, ScaleY * 28)
+  ResizeGadget(#Settings_Fleet, ScaleX * 825, ScaleY * 0, #PB_Ignore, #PB_Ignore)
   ResizeGadgetImage(#Settings_Fleet)
-  ResizeGadget(#String_Fleet, ScaleX * 184, ScaleY * 2, ScaleX * 545, ScaleY * 25)
-  ResizeGadget(#WebGadget_Fleet, ScaleX * 0, ScaleY * 30, ScaleX * 992, ScaleY * 615)
+  ResizeGadget(#String_Fleet, #PB_Ignore, ScaleY * 2, ScaleX * 600, #PB_Ignore)
+  ResizeGadget(#WebGadget_Fleet, ScaleX * 0, #PB_Ignore, ScaleX * 992, ScaleY * 615)
   ResizeGadget(#BackButton_Slack, ScaleX * 3, ScaleY * 0, ScaleX * 50, ScaleY * 28)
   ResizeGadgetImage(#BackButton_Slack)
   ResizeGadget(#ForwardButton_Slack, ScaleX * 63, ScaleY * 0, ScaleX * 50, ScaleY * 28)
@@ -512,14 +512,14 @@ Procedure Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
       TextGadget(#Txt_Prompt, 0, 10, 173, 20, "Prompt:")
         SetGadgetFont(#Txt_Prompt, FontID(#Font_Default_12_B))
       CheckBoxGadget(#Check_Stay_on_top, 700, 10, 271, 20, "Stay on top")
-      EditorGadget(#Edit_Prompt, 0, 34, 992, 303, #PB_Editor_WordWrap)
+      EditorGadget(#Edit_Prompt, 0, 34, 992, 303, #PB_Editor_WordWrap|#PB_Editor_TabNavigation)
         AddGadgetItem(#Edit_Prompt, -1, "Editor Line 1")
         AddGadgetItem(#Edit_Prompt, -1, "Editor Line 2")
         AddGadgetItem(#Edit_Prompt, -1, "Editor Line 3")
         SetGadgetFont(#Edit_Prompt, FontID(#Font_Default_12))
       TextGadget(#Txt_ScratchPad, 0, 351, 355, 20, "Scratch Pad:")
         SetGadgetFont(#Txt_ScratchPad, FontID(#Font_Default_12_B))
-      EditorGadget(#Edit_ScratchPad, 0, 375, 992, 260, #PB_Editor_WordWrap)
+      EditorGadget(#Edit_ScratchPad, 0, 375, 992, 260, #PB_Editor_WordWrap|#PB_Editor_TabNavigation)
         AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 1")
         AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 2")
         AddGadgetItem(#Edit_ScratchPad, -1, "Editor Line 3")
@@ -538,7 +538,9 @@ Procedure Open_Window_main(X = 0, Y = 0, Width = 1000, Height = 720)
       ButtonImageGadget(#HomeButton_Slack, 124, 0, 50, 28, ImageID(#Imag_Home))
       ButtonImageGadget(#Settings_Slack, 825, 0, 25, 28, ImageID(#Imag_Settings))
       StringGadget(#String_Slack, 185, 2, 545, 25, "https://app.slack.com/client/")
+        SetGadgetFont(#String_Fleet, FontID(#Font_Default_12))
       WebGadget(#WebGadget_Slack, 0, 30, 992, 615, "https://app.slack.com/client/", #PB_Web_Edge)
+       SetGadgetFont(#String_Slack, FontID(#Font_Default_12))
     CloseGadgetList()   ; #Panel_PromptScratch
 
     BindGadgetEvent(#Panel_PromptScratch, @Event_Panel_PromptScratch())
@@ -592,8 +594,8 @@ DataSection
 EndDataSection
 
 ; IDE Options = PureBasic 6.41 (Windows - x64)
-; CursorPosition = 371
-; FirstLine = 351
-; Folding = -----
+; CursorPosition = 459
+; FirstLine = 441
+; Folding = -------
 ; EnableXP
 ; DPIAware
